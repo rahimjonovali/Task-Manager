@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.id %}Edit Task{% else %}New Task{% endif %} - Task Manager{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">{% if form.instance.id %}Edit Task{% else %}New Task{% endif %}</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Title</label>
+                        <input type="text" name="title" value="{{ form.instance.title|default:'' }}" class="form-control" id="id_title" required>
+                        {% if form.title.errors %}
+                        <div class="text-danger">
+                            {% for error in form.title.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">Description</label>
+                        <textarea name="description" class="form-control" id="id_description" rows="4">{{ form.instance.description|default:'' }}</textarea>
+                        {% if form.description.errors %}
+                        <div class="text-danger">
+                            {% for error in form.description.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_status" class="form-label">Status</label>
+                        <select name="status" class="form-select" id="id_status">
+                            <option value="TODO" {% if form.instance.status == 'TODO' %}selected{% endif %}>To Do</option>
+                            <option value="IN_PROGRESS" {% if form.instance.status == 'IN_PROGRESS' %}selected{% endif %}>In Progress</option>
+                            <option value="DONE" {% if form.instance.status == 'DONE' %}selected{% endif %}>Done</option>
+                        </select>
+                        {% if form.status.errors %}
+                        <div class="text-danger">
+                            {% for error in form.status.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_due_date" class="form-label">Due Date</label>
+                        <input type="date" name="due_date" value="{{ form.instance.due_date|date:'Y-m-d'|default:'' }}" class="form-control" id="id_due_date">
+                        {% if form.due_date.errors %}
+                        <div class="text-danger">
+                            {% for error in form.due_date.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">{% if form.instance.id %}Update Task{% else %}Create Task{% endif %}</button>
+                        <a href="{% url 'task_list' %}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

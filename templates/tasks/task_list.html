@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}My Tasks - Task Manager{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>My Tasks</h1>
+    <div class="d-flex">
+        <form method="get" class="me-2">
+            <select name="status" class="form-select" onchange="this.form.submit()">
+                <option value="" {% if not request.GET.status %}selected{% endif %}>All Tasks</option>
+                <option value="TODO" {% if request.GET.status == 'TODO' %}selected{% endif %}>To Do</option>
+                <option value="IN_PROGRESS" {% if request.GET.status == 'IN_PROGRESS' %}selected{% endif %}>In Progress</option>
+                <option value="DONE" {% if request.GET.status == 'DONE' %}selected{% endif %}>Done</option>
+            </select>
+        </form>
+        <a href="{% url 'task_create' %}" class="btn btn-primary">New Task</a>
+    </div>
+</div>
+
+{% if tasks %}
+<div class="row">
+    {% for task in tasks %}
+    <div class="col-md-4">
+        <div class="card task-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">{{ task.title }}</h5>
+                <span class="task-status status-{{ task.status|lower }}">
+                    {% if task.status == 'TODO' %}To Do
+                    {% elif task.status == 'IN_PROGRESS' %}In Progress
+                    {% else %}Done{% endif %}
+                </span>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ task.description|truncatechars:100 }}</p>
+                <p class="card-text"><small class="text-muted">Due: {% if task.due_date %}{{ task.due_date }}{% else %}No due date{% endif %}</small></p>
+            </div>
+            <div class="card-footer d-flex justify-content-end">
+                <a href="{% url 'task_detail' task.id %}" class="btn btn-sm btn-outline-primary me-2">View</a>
+                <a href="{% url 'task_update' task.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    <p>You don't have any tasks yet. <a href="{% url 'task_create' %}">Create your first task</a>.</p>
+</div>
+{% endif %}
+{% endblock %}
+
