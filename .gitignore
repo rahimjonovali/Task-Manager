@@ -30,8 +30,8 @@ media
 # Virtual Environment
 venv/
 ENV/
-env/
-
+.env/
+.env.local
 # IDE
 .idea/
 .vscode/
