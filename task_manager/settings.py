@@ -3,6 +3,7 @@ Django settings for task_manager project.
 """
 
 import os
+import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -70,7 +71,16 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+DATABASES = {
+   'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': os.getenv('DB_NAME','mydb'),
+         'USER': os.getenv('DB_USER','aliuser'),
+         'PASSWORD': os.getenv('DB_PASSWORD','12345678913'),
+         'HOST': os.getenv('DB_HOST','localhost'),
+         'PORT': os.getenv('DB_PORT','5432'),
+   }
+}
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
