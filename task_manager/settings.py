@@ -14,7 +14,7 @@ load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL')
+#SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL')
 
 DEBUG = os.getenv('DEBUG')
 
