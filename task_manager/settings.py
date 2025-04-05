@@ -14,11 +14,10 @@ load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-#SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL')
 
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = ['Ali76.pythonanywhere.com']
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
