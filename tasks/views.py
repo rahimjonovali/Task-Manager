@@ -20,23 +20,14 @@ from .forms import TaskForm, CustomUserCreationForm
 
 # API Views
 class TaskViewSet(viewsets.ModelViewSet):
-    """
-    ViewSet for viewing and editing tasks.
-    """
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwner]
     
     def get_queryset(self):
-        """
-        This view returns a list of all tasks for the currently authenticated user.
-        """
         user = self.request.user
         return Task.objects.filter(user=user)
 
 class UserRegistrationView(APIView):
-    """
-    API view for user registration.
-    """
     permission_classes = [permissions.AllowAny]
     
     def post(self, request):
@@ -49,9 +40,6 @@ class UserRegistrationView(APIView):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def current_user(request):
-    """
-    Get the current user's details.
-    """
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
 

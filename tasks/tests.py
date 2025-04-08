@@ -9,7 +9,7 @@ from datetime import date
 
 class TaskAPITestCase(TestCase):
     def setUp(self):
-        # Create test users
+
         self.user1 = User.objects.create_user(
             username='testuser1',
             email='test1@example.com',
@@ -21,7 +21,7 @@ class TaskAPITestCase(TestCase):
             password='testpassword2'
         )
         
-        # Create test tasks
+
         self.task1 = Task.objects.create(
             title='Test Task 1',
             description='Description for test task 1',
@@ -38,11 +38,10 @@ class TaskAPITestCase(TestCase):
             user=self.user2
         )
         
-        # Initialize API client
+
         self.client = APIClient()
     
     def test_get_tasks_authenticated(self):
-        """Test that an authenticated user can get their tasks"""
         self.client.force_authenticate(user=self.user1)
         response = self.client.get(reverse('task-list'))
         
@@ -51,12 +50,10 @@ class TaskAPITestCase(TestCase):
         self.assertEqual(response.data[0]['title'], 'Test Task 1')
     
     def test_get_tasks_unauthenticated(self):
-        """Test that an unauthenticated user cannot get tasks"""
         response = self.client.get(reverse('task-list'))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
     
     def test_create_task(self):
-        """Test creating a new task"""
         self.client.force_authenticate(user=self.user1)
         data = {
             'title': 'New Task',
@@ -71,7 +68,6 @@ class TaskAPITestCase(TestCase):
         self.assertEqual(Task.objects.get(title='New Task').user, self.user1)
     
     def test_update_task(self):
-        """Test updating an existing task"""
         self.client.force_authenticate(user=self.user1)
         data = {
             'title': 'Updated Task 1',
@@ -89,7 +85,6 @@ class TaskAPITestCase(TestCase):
         self.assertEqual(self.task1.status, 'DONE')
     
     def test_delete_task(self):
-        """Test deleting a task"""
         self.client.force_authenticate(user=self.user1)
         response = self.client.delete(reverse('task-detail', kwargs={'pk': self.task1.id}))
         
@@ -97,7 +92,6 @@ class TaskAPITestCase(TestCase):
         self.assertEqual(Task.objects.count(), 1)
     
     def test_user_cannot_access_others_tasks(self):
-        """Test that a user cannot access another user's tasks"""
         self.client.force_authenticate(user=self.user1)
         response = self.client.get(reverse('task-detail', kwargs={'pk': self.task2.id}))
         
