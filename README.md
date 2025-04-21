@@ -19,7 +19,7 @@ Django Task Manager is a web application that helps users manage their daily tas
 ## Technologies Used
 
 - **Backend**: Django, Django REST Framework
-- **Database**: PostgreSQL
+- **Database**: SQLite
 - **Frontend**: Bootstrap, HTML, CSS, JavaScript
 - **Authentication**: Token-based authentication for API, session-based for web interface
 
