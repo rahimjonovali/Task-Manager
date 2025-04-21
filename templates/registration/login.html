@@ -16,9 +16,14 @@
                         <label for="id_username" class="form-label">Username</label>
                         <input type="text" name="username" class="form-control" id="id_username" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 position-relative">
                         <label for="id_password" class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" id="id_password" required>
+			<div class="input-group">
+                        	<input type="password" name="password" class="form-control" id="id_password" required>
+				<button type="button" class="btn btn-outline-secondary" id="togglePassword">
+           				 <i class="fas fa-eye" id="eyeIcon"></i>
+        			</button>
+			</div>
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">Login</button>
@@ -31,5 +36,19 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById("togglePassword").addEventListener("click", function () {
+        const passwordField = document.getElementById("id_password");
+        const eyeIcon = document.getElementById("eyeIcon");
+
+        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
+
+        // Change icon
+        eyeIcon.classList.toggle("fa-eye");
+        eyeIcon.classList.toggle("fa-eye-slash");
+    });
+</script>
+
 {% endblock %}
 

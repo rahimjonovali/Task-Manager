@@ -34,17 +34,23 @@
                         </div>
                         {% endif %}
                     </div>
-                    <div class="mb-3">
-                        <label for="id_password1" class="form-label">Password</label>
-                        <input type="password" name="password1" class="form-control" id="id_password1" required>
-                        {% if form.password1.errors %}
-                        <div class="text-danger">
-                            {% for error in form.password1.errors %}
-                            {{ error }}
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                    </div>
+		    <div class="mb-3 position-relative">
+   			 <label for="id_password1" class="form-label">Password</label>
+   			 <div class="input-group">
+       				 <input type="password" name="password1" class="form-control" id="id_password1" required>
+        			 <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+            				<i class="fas fa-eye" id="eyeIcon"></i>
+        			 </button>
+    			 </div>
+    			{% if form.password1.errors %}
+    			<div class="text-danger">
+       			    {% for error in form.password1.errors %}
+        	 	    {{ error }}
+        		    {% endfor %}
+    			</div>
+    			{% endif %}
+		    </div>
+
                     <div class="mb-3">
                         <label for="id_password2" class="form-label">Confirm Password</label>
                         <input type="password" name="password2" class="form-control" id="id_password2" required>
@@ -67,5 +73,19 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById("togglePassword").addEventListener("click", function () {
+        const passwordField = document.getElementById("id_password1");
+        const eyeIcon = document.getElementById("eyeIcon");
+
+        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
+
+        // Toggle icon
+        eyeIcon.classList.toggle("fa-eye");
+        eyeIcon.classList.toggle("fa-eye-slash");
+    });
+</script>
+
 {% endblock %}
 

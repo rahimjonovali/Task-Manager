@@ -40,7 +40,7 @@
                     <div class="mb-3">
                         <label for="id_status" class="form-label">Status</label>
                         <select name="status" class="form-select" id="id_status">
-                            <option value="TODO" {% if form.instance.status == 'TODO' %}selected{% endif %}>To Do</option>
+                            <option value="CANCELLED" {% if form.instance.status == 'CANCELLED' %}selected{% endif %}>Cancelled</option>
                             <option value="IN_PROGRESS" {% if form.instance.status == 'IN_PROGRESS' %}selected{% endif %}>In Progress</option>
                             <option value="DONE" {% if form.instance.status == 'DONE' %}selected{% endif %}>Done</option>
                         </select>

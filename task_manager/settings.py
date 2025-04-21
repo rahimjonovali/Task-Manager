@@ -15,7 +15,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['Ali76.pythonanywhere.com']
+ALLOWED_HOSTS = ['Ali76.pythonanywhere.com','127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',

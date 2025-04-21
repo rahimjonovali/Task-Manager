@@ -15,7 +15,7 @@
     <div class="card-header d-flex justify-content-between align-items-center">
         <h3 class="card-title mb-0">{{ task.title }}</h3>
         <span class="task-status status-{{ task.status|lower }}">
-            {% if task.status == 'TODO' %}To Do
+            {% if task.status == 'CANCELLED' %}Cancelled
             {% elif task.status == 'IN_PROGRESS' %}In Progress
             {% else %}Done{% endif %}
         </span>
@@ -34,7 +34,7 @@
             <div class="col-md-6">
                 <h5>Status</h5>
                 <p>
-                    {% if task.status == 'TODO' %}To Do
+                    {% if task.status == 'CANCELLED' %}Cancelled
                     {% elif task.status == 'IN_PROGRESS' %}In Progress
                     {% else %}Done{% endif %}
                 </p>
