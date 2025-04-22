@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'tasks',
+    'user',
     # 'corsheaders',
 ]
 
@@ -131,3 +132,5 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 SESSION_COOKIE_AGE = 1209600
 LOGIN_URL = '/login/'
+
+#AUTH_USER_MODEL = "user.CustomUser"
