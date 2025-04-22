@@ -7,10 +7,11 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect,HttpResponse
 
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions, status,mixins
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import generics
 from django.contrib.auth.models import User
 
 from .models import Task
@@ -18,7 +19,7 @@ from .serializers import TaskSerializer, UserSerializer
 from .permissions import IsOwner
 from .forms import TaskForm, CustomUserCreationForm
 
-# API Views
+# The following view is not used in urls.py
 class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwner]
@@ -26,6 +27,39 @@ class TaskViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return Task.objects.filter(user=user)
+#These following two views are alternative for the above one !!!!!
+class TaskListCreateAPIView(mixins.ListModelMixin,
+			    mixins.CreateModelMixin,
+			    generics.GenericAPIView):
+	queryset = Task.objects.all()
+	serializer_class = TaskSerializer
+	permission_classes = [permissions.IsAuthenticated]
+
+	def get_queryset(self):
+		return Task.objects.filter(user=self.request.user)
+	def get(self, request, *args, **kwargs):
+		return self.list(request, *args, **kwargs)
+	def post(self, request, *args, **kwargs):
+		return self.create(request, *args, **kwargs)
+
+class TaskRetrieveUpdateDestroyAPIView(mixins.RetrieveModelMixin,
+				       mixins.UpdateModelMixin,
+				       mixins.DestroyModelMixin,
+				       generics.GenericAPIView):
+	queryset = Task.objects.all()
+	serializer_class = TaskSerializer
+	permission_class = [permissions.IsAuthenticated]
+
+	def get_queryset(self):
+		return Task.objects.filter(user=self.request.user)
+	def get(self, request, *args, **kwargs):
+		return self.retrieve(request, *args, **kwargs)
+	def put(self, request, *args, **kwargs):
+		return self.update(request, *args, **kwargs)
+	def patch(self, request, *args, **kwargs):
+		return self.partial_update(request, *args, **kwargs)
+	def delete(self, request, *args, **kwargs):
+		return self.destroy(request, *args, **kwargs)
 
 class UserRegistrationView(APIView):
     permission_classes = [permissions.AllowAny]
