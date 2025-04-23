@@ -12,10 +12,14 @@
             <div class="card-body">
                 <form method="post">
                     {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="id_username" class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control" id="id_username" required>
-                    </div>
+         	    <div class="mb-3">
+           		 <label for="id_email" class="form-label">Email</label>
+           		 <input type="email"
+                  		 name="email"
+                   	         class="form-control"
+                   		 id="id_email"
+                   	 	 required>
+         	    </div>
                     <div class="mb-3 position-relative">
                         <label for="id_password" class="form-label">Password</label>
 			<div class="input-group">

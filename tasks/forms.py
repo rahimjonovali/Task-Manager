@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from .models import Task
+
+User = get_user_model()
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -12,9 +14,8 @@ class TaskForm(forms.ModelForm):
         }
 
 class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(required=False)
-
-    class Meta:
+     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
-
+        fields = ['email', 'first_name', 'password1', 'password2']
+        labels = {'birth_date': 'Date of Birth','headline': 'Your Headline','bio': 'Short Bio',}
+        help_texts = {'avatar': 'Optional profile picture',}
