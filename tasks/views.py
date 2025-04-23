@@ -5,19 +5,33 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect,HttpResponse
 
 from rest_framework import viewsets, permissions, status,mixins
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from .models import Task
 from .serializers import TaskSerializer, UserSerializer
 from .permissions import IsOwner
-from .forms import TaskForm, CustomUserCreationForm
+from .forms import TaskForm, CustomUserCreationForm,ProfileUpdateForm
+
+User = get_user_model()
+
+class  ProfileUpdateView(LoginRequiredMixin,UpdateView):
+	model = User
+	form_class = ProfileUpdateForm
+	template_name = "profile/profile_form.html"
+	success_url = reverse_lazy('profile')
+
+	def get_object(self, queryset=None):
+		return self.request.user
+
+	def form_valid(self, form):
+		messages.success(self.request, "Profile updated successfully")
+		return super().form_valid(form)
 
 # The following view is not used in urls.py
 class TaskViewSet(viewsets.ModelViewSet):

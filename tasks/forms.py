@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 from django.contrib.auth import get_user_model
 from .models import Task
 
@@ -19,3 +19,11 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['email', 'first_name', 'password1', 'password2']
         labels = {'birth_date': 'Date of Birth','headline': 'Your Headline','bio': 'Short Bio',}
         help_texts = {'avatar': 'Optional profile picture',}
+
+
+class ProfileUpdateForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = "__all__"
+        labels = {'birth_date': 'Date of Birth', 'headline': 'Your Headline', 'bio': 'Short Bio', }
+        help_texts = {'avatar': 'Optional profile picture', }
