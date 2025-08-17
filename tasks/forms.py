@@ -20,10 +20,28 @@ class CustomUserCreationForm(UserCreationForm):
         labels = {'birth_date': 'Date of Birth','headline': 'Your Headline','bio': 'Short Bio',}
         help_texts = {'avatar': 'Optional profile picture',}
 
-
 class ProfileUpdateForm(UserChangeForm):
     class Meta:
         model = User
-        fields = "__all__"
-        labels = {'birth_date': 'Date of Birth', 'headline': 'Your Headline', 'bio': 'Short Bio', }
-        help_texts = {'avatar': 'Optional profile picture', }
+        fields = ['first_name', 'last_name', 'email', 'birth_date', 'avatar', 'headline', 'bio']
+        labels = {
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'email': 'Email Address',
+            'birth_date': 'Date of Birth',
+            'headline': 'Your Headline',
+            'bio': 'Short Bio',
+            'avatar': 'Profile Picture',
+        }
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'headline': forms.TextInput(attrs={'class': 'form-control'}),
+            'bio': forms.Textarea(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['avatar'].widget.attrs.update({'class': 'form-control'})
